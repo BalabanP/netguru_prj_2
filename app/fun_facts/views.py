@@ -62,10 +62,11 @@ class FunDatesViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         if not date_fact[1]:
             return Response(
-                {"msg": f"Data  Updated", "id": filtred_data.get("id")},
+                {"msg":"Data Updated", "data":filtred_data},
                 status=status.HTTP_200_OK,
             )
-        return Response(filtred_data, status=status.HTTP_201_CREATED)
+        return Response({"msg":"Data Created", "data":filtred_data}, 
+                        status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -73,15 +74,10 @@ class FunDatesViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             serializer.save()
             return Response(
-                {"msg": "Data  Updated", "id": serializer.validated_data.get("id")},
-                status=status.HTTP_201_CREATED,
+                {"msg": "Data Updated", "data": serializer.validated_data},
+                status=status.HTTP_200_OK,
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def retreive(self, request, pk=None):
-        if pk is not None:
-            serializer = self.get_serializer(self.get_object())
-            return Response(serializer.data)
 
     def destroy(self, request, pk):
         record_to_delete = self.get_object()
