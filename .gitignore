@@ -5,6 +5,7 @@ __pycache__/
 #staticfiles
 
 app/static/
+.devcontainer/
 # C extensions
 *.so
 
